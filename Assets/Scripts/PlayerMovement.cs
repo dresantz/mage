@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Camera _camera;
 
+    private Vector2 moveDirection;
+    private Vector2 mousePosition;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -37,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         SetPlayerVelocity();
-        RotateInDirectionOfInput();
+        RotateInDirectionOfMouse();
         SetAnimation();
     }
 
@@ -92,7 +96,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void RotateInDirectionOfInput()
+    private void RotateInDirectionOfMouse()
+    {
+        // Obtém a posição do mouse no mundo
+        Vector3 mouseWorldPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+
+        // Calcula a direção do mouse em relação ao player
+        Vector2 directionToMouse = (Vector2)(mouseWorldPosition - transform.position);
+
+        // Calcula o ângulo necessário para olhar na direção do mouse
+        float targetAngle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg - 90f;
+
+        // Define a rotação do Rigidbody2D
+        Rigidbody2D.rotation = targetAngle;
+    }
+
+
+/*    private void RotateInDirectionOfInput()
     {
         // verifica se está acontecendo um input de movimento
         if (movementInput != Vector2.zero)
@@ -114,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
 
             Rigidbody2D.MoveRotation(rotation);
         }
-    }
+    }*/
 
     private void OnMove(InputValue inputValue)
     {
