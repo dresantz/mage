@@ -18,10 +18,23 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Dano ao inimigo
         if (collision.GetComponent<Enemy>())
         {
             HealthController healthController = collision.GetComponent<HealthController>();
             healthController.TakeDamage(10);
+            Destroy(gameObject);
+        }
+
+        // Dano aos objetos que podem ser destruidos
+        if (collision.gameObject.CompareTag("Destructable"))
+        {
+            // Tenta acessar o script DestructableObject no objeto colidido
+            Destructable destructable = collision.gameObject.GetComponent<Destructable>();
+            if (destructable != null)
+            {
+                destructable.TakeDamage(10);
+            }
             Destroy(gameObject);
         }
     }
