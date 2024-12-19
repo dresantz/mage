@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    // Referência ao objeto que a câmera deve seguir
     public Transform player;
 
     // Offset entre a câmera e o jogador (apenas no plano X e Y)
@@ -18,6 +17,12 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+
+        if (PauseMenu.IsPaused)
+        {
+            return;
+        }
+
         // Calcula a posição do mouse no mundo
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
 

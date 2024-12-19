@@ -33,6 +33,11 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseMenu.IsPaused)
+        {
+            return;
+        }
+
         if (fireContinuously || fireSingle)
         {
             // Calcula a quantidade de tempo que passou desde o último disparo
@@ -46,7 +51,6 @@ public class PlayerShoot : MonoBehaviour
                 lastFireTime = Time.time;
                 fireSingle = false;
             }
-
         }
     }
 
@@ -63,8 +67,13 @@ public class PlayerShoot : MonoBehaviour
     // InputValue é o novo sistema de Input
     private void OnFire(InputValue inputValue)
     {
-        fireContinuously = inputValue.isPressed;
+        if (PauseMenu.IsPaused)
+        {
+            return;
+        }
 
+        fireContinuously = inputValue.isPressed;
+       
         //Verifica se o botão foi apertado
         if (inputValue.isPressed)
         {
