@@ -6,8 +6,7 @@ using UnityEngine.Events;
 
 public class HealthController : MonoBehaviour
 {
-    [SerializeField]
-    private float currentHealt;
+    public float currentHealt;
     [SerializeField]
     private float maximumHealth;
 
@@ -59,12 +58,18 @@ public class HealthController : MonoBehaviour
 
         if (currentHealt == 0)
         {
-            OnDied.Invoke();
+            Die();
         }
         else
         {
             OnDamaged.Invoke();
         }
+    }
+
+    // Função criada para que o EndGame acesse o Die e mate os inimigos.
+    public void Die()
+    {
+        OnDied.Invoke();
     }
 
     public void AddHealth(float amountToAdd)

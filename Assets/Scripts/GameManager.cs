@@ -15,10 +15,10 @@ public class GameManager : MonoBehaviour
     public void OnPlayerDied()
     {
         // nameof serve apenas para passar o nome de um método sem criar uma variável
-        Invoke(nameof(EndGame), timeToWaitBeforeExit);
+        Invoke(nameof(GameOver), timeToWaitBeforeExit);
     }
 
-    private void EndGame()
+    private void GameOver()
     {
         // sceneController substitui o SceneManager
         sceneController.LoadScene("MainMenu");
