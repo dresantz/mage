@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
 {
     private Camera _camera;
 
+    public GameObject bulletParticles;
+
     private void Awake()
     {
         _camera = Camera.main;
@@ -24,6 +26,7 @@ public class Bullet : MonoBehaviour
             HealthController healthController = collision.GetComponent<HealthController>();
             healthController.TakeDamage(10);
             Destroy(gameObject);
+            TriggerDestructionEffect();
         }
 
         // Dano aos objetos que podem ser destruidos
@@ -36,6 +39,7 @@ public class Bullet : MonoBehaviour
                 destructable.TakeDamage(10);
             }
             Destroy(gameObject);
+            TriggerDestructionEffect();
         }
     }
 
@@ -49,6 +53,18 @@ public class Bullet : MonoBehaviour
             screenPosition.y > _camera.pixelHeight)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void TriggerDestructionEffect()
+    {
+        if (bulletParticles != null)
+        {
+            // Instancia o efeito de partículas na posição e rotação do objeto
+            GameObject effectInstance = Instantiate(bulletParticles, transform.position, transform.rotation);
+
+            // Destroi o clone do efeito de partículas após 10 segundos
+            Destroy(effectInstance, 1f);
         }
     }
 }

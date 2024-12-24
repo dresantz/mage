@@ -178,3 +178,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxResistance: 20
+  destructionEffect: {fileID: 2755100471742132682, guid: 1f2f582a73b2f174eb160a52f6275620, type: 3}

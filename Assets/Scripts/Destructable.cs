@@ -28,14 +28,13 @@ public class Destructable : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Dispara o efeito de partículas na posição do objeto.
-    /// </summary>
     private void TriggerDestructionEffect()
     {
-
         // Instancia o efeito de partículas na posição e rotação do objeto
-        Instantiate(destructionEffect, transform.position, transform.rotation);
+        GameObject effectInstance = Instantiate(destructionEffect, transform.position, transform.rotation);
+
+        // Destroi o clone do efeito de partículas após 10 segundos
+        Destroy(effectInstance, 10f);
     }
 }
 
