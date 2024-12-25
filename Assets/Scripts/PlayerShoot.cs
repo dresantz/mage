@@ -7,50 +7,21 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField]
     private GameObject bulletPrefab;
-
     [SerializeField]
     private Transform wandOffset;
-
     [SerializeField]
     private float delayBetweenShoots;
-
-
     [SerializeField]
     private float bulletSpeed;
 
-    private bool fireContinuously;
-    // Feito para corrigir um bug que se você aperta duas vezes e segura na segunda,
-    // Ele só dispara uma vez e para pois o segundo clique veio antes do delay acabar.
-    private bool fireSingle;
+    private bool canShoot = true; // Controla se o jogador pode disparar
     private float lastFireTime;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (PauseMenu.IsPaused)
         {
             return;
-        }
-
-        if (fireContinuously || fireSingle)
-        {
-            // Calcula a quantidade de tempo que passou desde o último disparo
-            float timeSinceLastFire = Time.time - lastFireTime;
-
-            // Se o tempo do último disparo for maior ou igual ao delay, então pode disparar novamente
-            if (timeSinceLastFire >= delayBetweenShoots)
-            {
-                FireBullet();
-                // Pega o momento atual do último disparo
-                lastFireTime = Time.time;
-                fireSingle = false;
-            }
         }
     }
 
@@ -62,22 +33,31 @@ public class PlayerShoot : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         // A velocidade do projétil multiplicada pela direção que o personagem está apontando(up)
         rb.velocity = bulletSpeed * transform.up;
+
+        // Atualiza o tempo do último disparo
+        lastFireTime = Time.time;
+        canShoot = false; // Impede novos disparos até que o delay seja respeitado
+        StartCoroutine(Reload());
     }
 
-    // InputValue é o novo sistema de Input
+    private IEnumerator Reload()
+    {
+        // Aguarda o delay antes de permitir outro disparo
+        yield return new WaitForSeconds(delayBetweenShoots);
+        canShoot = true;
+    }
+
     private void OnFire(InputValue inputValue)
     {
-        if (PauseMenu.IsPaused)
+        if (PauseMenu.IsPaused || !canShoot)
         {
             return;
         }
 
-        fireContinuously = inputValue.isPressed;
-       
-        //Verifica se o botão foi apertado
+        // Verifica se o botão foi pressionado
         if (inputValue.isPressed)
         {
-            fireSingle = true;
+            FireBullet();
         }
     }
 }
