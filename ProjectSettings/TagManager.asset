@@ -6,7 +6,7 @@ TagManager:
   tags:
   - ESpawnerPos
   - Destructable
-  - pieces
+  - Obstacle
   layers:
   - Default
   - TransparentFX

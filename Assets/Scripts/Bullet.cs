@@ -41,6 +41,12 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
             TriggerDestructionEffect();
         }
+
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Destroy(gameObject);
+            TriggerDestructionEffect();
+        }
     }
 
     private void DestroyWhenOffScreen()
