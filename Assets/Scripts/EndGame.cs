@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class EndGame : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class EndGame : MonoBehaviour
     private float timeToWaitBeforeExit;
     [SerializeField]
     private SceneController sceneController;
+    [SerializeField]
+    private float delayBeforeEndGameScreen = 2.0f;
 
     public GameObject endGameScreen;
     public TextMeshProUGUI endGameText;
@@ -44,11 +47,10 @@ public class EndGame : MonoBehaviour
         // Ativa a tela de fim de jogo apenas uma vez
         if (allSpawnersDestroyed && !isEndGameScreenActive)
         {
-            ActivateEndGameScreen();
-            isEndGameScreenActive = true;  // Marca que a tela de fim de jogo foi ativada
+            StartCoroutine(DelayedActivateEndGameScreen());
+            isEndGameScreenActive = true; // Marca que a tela de fim de jogo foi ativada
         }
 
-        // Quando o jogador pressionar a tecla E, avançar para a próxima frase
         if (Input.GetKeyDown(KeyCode.E) && isEndGameScreenActive && !isTyping && !isEndGameCompleted)
         {
             ShowNextMessage();
@@ -65,6 +67,13 @@ public class EndGame : MonoBehaviour
             // Exibe a primeira mensagem da lista com a corrotina
             StartCoroutine(TypeSentence());
         }
+    }
+
+
+    private IEnumerator DelayedActivateEndGameScreen()
+    {
+        yield return new WaitForSeconds(delayBeforeEndGameScreen);
+        ActivateEndGameScreen();
     }
 
 
@@ -121,11 +130,13 @@ public class EndGame : MonoBehaviour
     // Mata os inimigos e desativa funções do player e do pause.
     void StopGamePlay()
     {
-        // Encontrar e desativar os códigos do player
+        // Desativa o MouseFollow.
         PlayerMovement mov = FindObjectOfType<PlayerMovement>();
-        PlayerShoot shoot = FindObjectOfType<PlayerShoot>();
         mov.enabled = false;
-        shoot.enabled = false;
+
+        // Desativa o movimento e os disparos.
+        PlayerInput playerInput = FindObjectOfType<PlayerInput>();
+        playerInput.enabled = false;
 
         PauseMenu pause = FindObjectOfType<PauseMenu>();
         pause.enabled = false;
