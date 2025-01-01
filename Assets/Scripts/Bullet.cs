@@ -53,10 +53,10 @@ public class Bullet : MonoBehaviour
     {
         Vector2 screenPosition = _camera.WorldToScreenPoint(transform.position);
 
-        if (screenPosition.x < 0 ||
-            screenPosition.x > _camera.pixelWidth ||
-            screenPosition.y < 0 ||
-            screenPosition.y > _camera.pixelHeight)
+        if (screenPosition.x < -300 ||
+            screenPosition.x > _camera.pixelWidth + 300 ||
+            screenPosition.y < -300 ||
+            screenPosition.y > _camera.pixelHeight + 300)
         {
             Destroy(gameObject);
         }

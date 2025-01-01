@@ -50,11 +50,11 @@ TagManager:
   - name: Collactable
     uniqueID: 3794317765
     locked: 0
-  - name: Bullet
-    uniqueID: 344612605
-    locked: 0
   - name: Enemy
     uniqueID: 3780069275
+    locked: 0
+  - name: Bullet
+    uniqueID: 344612605
     locked: 0
   - name: Player
     uniqueID: 2255200563
