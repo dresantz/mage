@@ -6,15 +6,22 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField]
     private float damageAmount;
+    private Animator animator;
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerMovement>())
         {
             var healtController = collision.gameObject.GetComponent<HealthController>();
-
             // Manda para a função TakeDamage o damageAmount
             healtController.TakeDamage(damageAmount);
+            animator.SetTrigger("onAttack");
+
         }
     }
 }
