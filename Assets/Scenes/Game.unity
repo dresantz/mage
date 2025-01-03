@@ -3434,6 +3434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectablePrefabs:
   - {fileID: 4108342349699988689, guid: 80e38327b249a304887edd4b05c008c1, type: 3}
+  particleEffectPrefab: {fileID: 4945405503745790458, guid: 1952935d4e757e74a97914088f729591, type: 3}
 --- !u!4 &1097827513
 Transform:
   m_ObjectHideFlags: 0
