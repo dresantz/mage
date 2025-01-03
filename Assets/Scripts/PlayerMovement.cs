@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -110,31 +107,6 @@ public class PlayerMovement : MonoBehaviour
         // Define a rotação do Rigidbody2D
         Rigidbody2D.rotation = targetAngle;
     }
-
-
-/*    private void RotateInDirectionOfInput()
-    {
-        // verifica se está acontecendo um input de movimento
-        if (movementInput != Vector2.zero)
-        {
-            // Essa linha cria um local para se rotacionar.
-            // Quaternion é uma variavel específica para guardar rotações.
-            // LookRotation é um método usada para olhar na direção desejada.
-            // Ela é usada para jogos 3D, por isso usa dois vetores
-            // O primeiro vetor é frente e trás, mas no 2D não usamos frente e trás.
-            // transform.foward vai travar o frente e trás na mesma posição.
-            Quaternion targetRotation = Quaternion.LookRotation(transform.forward, smoothedMovementInput);
-
-            // Essa linha faz a rotação para o local criado na linha anterior.
-            // O primeiro pega para onde o personagem está virado no momento.
-            // A segunda variável pega para onde você quer virar.
-            // A terceira pega a velocidade de rotação.
-            // TdT é usado pois estamos usando física.
-            Quaternion rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-            Rigidbody2D.MoveRotation(rotation);
-        }
-    }*/
 
     private void OnMove(InputValue inputValue)
     {
