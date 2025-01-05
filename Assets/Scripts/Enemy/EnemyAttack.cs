@@ -21,7 +21,6 @@ public class EnemyAttack : MonoBehaviour
             // Manda para a função TakeDamage o damageAmount
             healtController.TakeDamage(damageAmount);
             animator.SetTrigger("onAttack");
-
         }
     }
 }

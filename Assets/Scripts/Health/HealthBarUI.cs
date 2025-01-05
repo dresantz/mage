@@ -3,7 +3,7 @@ using UnityEngine;
 public class HealthBarUI : MonoBehaviour
 {
     [SerializeField]
-    private RectTransform fillRect; // Referência ao objeto Fill
+    private RectTransform fillRect;
 
     public void UpdateHealthBar(HealthController healthController)
     {
