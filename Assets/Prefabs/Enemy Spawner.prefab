@@ -17,7 +17,7 @@ GameObject:
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Destructable
-  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1276821389
   m_SortingLayer: 1
-  m_SortingOrder: 10
-  m_Sprite: {fileID: -2413806693520163455, guid: a909fd68c788d6042826765ec27340c2, type: 3}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 052db2d66728af04ab474b13437f1177, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -165,6 +165,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 3202492004547451140, guid: 3dbd4e867156c4b4bb84f38a7fa72e6b, type: 3}
   minimumSpawnTime: 2
   maximumSpawnTime: 5
+  spawnParticles: {fileID: 6612426826658739183, guid: 116bbc230b7e8824390bed32e878b1d2, type: 3}
 --- !u!114 &5353126024342594969
 MonoBehaviour:
   m_ObjectHideFlags: 0
