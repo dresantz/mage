@@ -6,8 +6,9 @@ public class CollectableSpawner : MonoBehaviour
     [SerializeField]
     private List<GameObject> collectablePrefabs; // Lista de prefabs dos coletáveis
 
-    [SerializeField]
-    private GameObject particleEffectPrefab; // Prefab das partículas
+    // Sistema de criação de particulas foi comentado por não sei se vou usar
+    /*[SerializeField]
+    private GameObject particleEffectPrefab;*/
 
     public void SpawnCollectable(Vector2 position)
     {
@@ -18,12 +19,11 @@ public class CollectableSpawner : MonoBehaviour
         // Instancia o coletável na posição especificada
         Instantiate(selectedCollectable, position, Quaternion.identity);
 
-        // Instancia as partículas na mesma posição do coletável
-        if (particleEffectPrefab != null)
+
+        /*if (particleEffectPrefab != null)
         {
             GameObject particles = Instantiate(particleEffectPrefab, position, Quaternion.identity);
 
-            // Configura a duração das partículas para destruí-las após o tempo necessário
             ParticleSystem particleSystem = particles.GetComponent<ParticleSystem>();
             if (particleSystem != null)
             {
@@ -31,8 +31,8 @@ public class CollectableSpawner : MonoBehaviour
             }
             else
             {
-                Destroy(particles, 7.0f); // Tempo padrão caso não seja um ParticleSystem
+                Destroy(particles, 7.0f);
             }
-        }
+        }*/
     }
 }
