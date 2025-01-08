@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3625542600297333010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1085911596946474254}
+  m_Layer: 0
+  m_Name: WiggleDirection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1085911596946474254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3625542600297333010}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4616731916422833599}
+  m_Father: {fileID: 4640666734851668160}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5620210430867255998
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,7 +61,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4640666734851668160}
+  m_Father: {fileID: 1085911596946474254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &5983207499009628921
 GameObject:
@@ -62,7 +94,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4616731916422833599}
+  - {fileID: 1085911596946474254}
   m_Father: {fileID: 7570884954876441574}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &5489149674028634149
@@ -109,7 +141,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 3, y: 0, z: 1}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -117,8 +149,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.9375
+        time: 0.0038032532
+        value: 0.4196415
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -147,7 +179,7 @@ LineRenderer:
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
+      ctime0: 20046
       ctime1: 65535
       ctime2: 0
       ctime3: 0
@@ -155,7 +187,7 @@ LineRenderer:
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 0
+      atime0: 18697
       atime1: 65535
       atime2: 0
       atime3: 0
@@ -197,6 +229,10 @@ MonoBehaviour:
   targetDir: {fileID: 4616731916422833599}
   targetDist: 0.1
   smoothSpeed: 0.1
+  trailSpeed: 350
+  wiggleSpeed: 10
+  wiggleMagnitude: 100
+  wiggleDir: {fileID: 1085911596946474254}
 --- !u!1001 &1006132993394714928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -240,6 +276,14 @@ PrefabInstance:
     - target: {fileID: 5094237239995057438, guid: 3dbd4e867156c4b4bb84f38a7fa72e6b, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270972956284934870, guid: 3dbd4e867156c4b4bb84f38a7fa72e6b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270972956284934870, guid: 3dbd4e867156c4b4bb84f38a7fa72e6b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7270972956284934870, guid: 3dbd4e867156c4b4bb84f38a7fa72e6b, type: 3}
       propertyPath: m_LocalPosition.x
