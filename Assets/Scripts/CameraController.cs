@@ -8,12 +8,39 @@ public class CameraController : MonoBehaviour
 
     // Offset entre a câmera e o jogador (apenas no plano X e Y)
     public Vector3 offset;
-
     // Velocidade para suavizar o movimento da câmera
     public float smoothSpeed = 0.125f;
-
     // Fator multiplicador para o deslocamento da câmera na direção do mouse
     public float displacementMultiplier = 0.15f;
+
+
+    public Collider2D boundaryCollider; // O Collider2D que define os limites da câmera
+    private Camera mainCamera;
+    private Vector2 minBounds;
+    private Vector2 maxBounds;
+    private float halfHeight;
+    private float halfWidth;
+
+    void Start()
+    {
+        if (boundaryCollider == null)
+        {
+            Debug.LogError("Por favor, atribua um Collider2D para definir os limites da câmera.");
+            return;
+        }
+
+        mainCamera = Camera.main;
+
+        // Calcula os limites do Collider2D
+        Bounds bounds = boundaryCollider.bounds;
+        minBounds = bounds.min;
+        maxBounds = bounds.max;
+
+        // Calcula o tamanho da câmera com base no tamanho da viewport
+        halfHeight = mainCamera.orthographicSize;
+        halfWidth = halfHeight * mainCamera.aspect;
+    }
+
 
     void LateUpdate()
     {
@@ -37,5 +64,21 @@ public class CameraController : MonoBehaviour
 
         // Atualiza a posição da câmera
         transform.position = smoothedPosition;
+
+
+
+
+        if (boundaryCollider == null)
+            return;
+
+        // Obtém a posição atual da câmera
+        Vector3 cameraPosition = transform.position;
+
+        // Restringe a posição da câmera para dentro dos limites
+        cameraPosition.x = Mathf.Clamp(cameraPosition.x, minBounds.x + halfWidth, maxBounds.x - halfWidth);
+        cameraPosition.y = Mathf.Clamp(cameraPosition.y, minBounds.y + halfHeight, maxBounds.y - halfHeight);
+
+        // Aplica a nova posição
+        transform.position = cameraPosition;
     }
 }
