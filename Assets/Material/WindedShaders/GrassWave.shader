@@ -9,11 +9,12 @@ Shader "Custom/GrassWaveShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         LOD 100
 
         Pass
         {
+            Blend SrcAlpha OneMinusSrcAlpha
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -63,7 +64,9 @@ Shader "Custom/GrassWaveShader"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return tex2D(_MainTex, i.uv);
+                fixed4 color = tex2D(_MainTex, i.uv);
+                // Preserva o alpha ou modifica se necessário
+                return color;
             }
             ENDCG
         }
