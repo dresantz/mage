@@ -193,9 +193,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotationSpeed: 400
-  screenBorder: -1000
-  obstacleCheckCircleRadius: 0.45
-  obstacleCheckDistance: 1
+  screenBorder: -800
+  obstacleCheckCircleRadius: 0.4
+  obstacleCheckDistance: 0.5
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 1

@@ -84,7 +84,7 @@ public class Enemy : MonoBehaviour
             targetDirection = rotation * targetDirection;
 
 
-            changeDirectionCooldown = Random.Range(1f, 4f);
+            changeDirectionCooldown = Random.Range(1f, 5f);
         }
     }
 
