@@ -55,9 +55,10 @@ public class Enemy : MonoBehaviour
     {
         HandleRandomDirectionChange();
         HandlePlayerTargeting();
+
         // Precisa ser chamado logo depois de encontrar o jogador
         HandleObstacles();
-        HandleEnemyOffScreen();
+        /*HandleEnemyOffScreen();*/
     }
 
     private void HandleRandomDirectionChange()
@@ -74,7 +75,7 @@ public class Enemy : MonoBehaviour
             targetDirection = rotation * targetDirection;
 
 
-            changeDirectionCooldown = Random.Range(1f, 5f);
+            changeDirectionCooldown = Random.Range(1f, 4f);
         }
     }
 
@@ -86,13 +87,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void HandleEnemyOffScreen()
+/*    private void HandleEnemyOffScreen()
     {
         // Converte o transform.position (em relação ao mundo) em um position em relação a câmera.
         Vector2 screenPosition = _camera.WorldToScreenPoint(transform.position);
 
 
         // Substitui o Rigidbody2D.velocity.x por targetPosition
+        // Essa parte verifica se o personagem está tentando ir para a esquerda
         if ((screenPosition.x < screenBorder && targetDirection.x < 0) ||
                 // Essa parte verifica se o personagem está tentando ir para a direita
                 (screenPosition.x > _camera.pixelWidth - screenBorder && targetDirection.x > 0))
@@ -110,8 +112,7 @@ public class Enemy : MonoBehaviour
             // Reverte a velocidade no eixo Y.
             targetDirection = new Vector2(targetDirection.x, -targetDirection.y);
         }
-    }
-
+    }*/
 
     private void HandleObstacles()
     {
@@ -140,7 +141,7 @@ public class Enemy : MonoBehaviour
             if (obstacleAvoidanceCooldown <= 0)
             {
                 obstacleAvoidanceTargetDirection = obstacleCollision.normal;
-                obstacleAvoidanceCooldown = 0.5f;
+                obstacleAvoidanceCooldown = 0.3f;
             }
 
             // Cria uma rotação máxima para o inimigo não virar na direção oposta do obstáculo
@@ -155,6 +156,7 @@ public class Enemy : MonoBehaviour
             break; // sai do loop
         }
     }
+
     private void RotateTowardsTarget()
     {
 
