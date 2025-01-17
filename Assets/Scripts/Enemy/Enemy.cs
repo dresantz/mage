@@ -6,8 +6,10 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float speed;
+
     [SerializeField]
     private float rotationSpeed;
+
     //Colocamos -30 para que o inimigo consiga sair 30 Pixels e voltar depois.
     [SerializeField]
     private float screenBorder;
@@ -15,17 +17,24 @@ public class Enemy : MonoBehaviour
     // Sobre o CircleCast
     [SerializeField]
     private float obstacleCheckCircleRadius;
+
     [SerializeField]
     private float obstacleCheckDistance;
+
     [SerializeField]
     private LayerMask obstacleLayerMask;
+
     private RaycastHit2D[] obstacleCollisions;
+
     // Usado para evitar que mais de um obstáculo faça com que o Enemy fique preso
     private float obstacleAvoidanceCooldown;
+
     private Vector2 obstacleAvoidanceTargetDirection;
 
     private Rigidbody2D Rigidbody2D;
+
     private PlayerAwareness playerAwareness;
+
     private Vector2 targetDirection;
 
     private float changeDirectionCooldown;
@@ -58,7 +67,7 @@ public class Enemy : MonoBehaviour
 
         // Precisa ser chamado logo depois de encontrar o jogador
         HandleObstacles();
-        /*HandleEnemyOffScreen();*/
+        HandleEnemyOffScreen();
     }
 
     private void HandleRandomDirectionChange()
@@ -87,7 +96,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-/*    private void HandleEnemyOffScreen()
+    private void HandleEnemyOffScreen()
     {
         // Converte o transform.position (em relação ao mundo) em um position em relação a câmera.
         Vector2 screenPosition = _camera.WorldToScreenPoint(transform.position);
@@ -112,7 +121,7 @@ public class Enemy : MonoBehaviour
             // Reverte a velocidade no eixo Y.
             targetDirection = new Vector2(targetDirection.x, -targetDirection.y);
         }
-    }*/
+    }
 
     private void HandleObstacles()
     {

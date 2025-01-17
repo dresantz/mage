@@ -191,9 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fe7a4e8fd8f6384a93de5a9b309911f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 5
   rotationSpeed: 400
-  screenBorder: -30
+  screenBorder: -1000
   obstacleCheckCircleRadius: 0.45
   obstacleCheckDistance: 1
   obstacleLayerMask:
