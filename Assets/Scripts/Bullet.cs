@@ -21,33 +21,56 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Dano ao inimigo
-        if (collision.GetComponent<Enemy>())
+        Enemy enemy = collision.GetComponent<Enemy>();
+        if (enemy != null)
         {
             HealthController healthController = collision.GetComponent<HealthController>();
-            healthController.TakeDamage(10);
+            if (healthController != null)
+            {
+                healthController.TakeDamage(10);
+            }
             Destroy(gameObject);
             TriggerDestructionEffect();
+            return;
         }
 
-        // Dano aos objetos que podem ser destruidos
+        // Dano aos objetos que podem ser destruídos
         if (collision.gameObject.CompareTag("Destructable"))
         {
-            // Tenta acessar o script DestructableObject no objeto colidido
-            Destructable destructable = collision.gameObject.GetComponent<Destructable>();
+            // Tenta aplicar dano ao objeto
+            Destructable destructable = collision.GetComponent<Destructable>();
             if (destructable != null)
             {
                 destructable.TakeDamage(10);
             }
+
+            // Tenta aplicar força no objeto destrutível
+            Rigidbody2D targetRigidbody = collision.GetComponent<Rigidbody2D>();
+            if (targetRigidbody != null)
+            {
+                // Calcula a direção da força com base na posição da bala e do objeto
+                Vector2 impactPoint = transform.position;
+                Vector2 forceDirection = (targetRigidbody.position - impactPoint).normalized;
+
+                // Aplica a força no ponto de impacto
+                float forceMagnitude = 1000f; // Ajuste a intensidade da força conforme necessário
+                targetRigidbody.AddForceAtPosition(forceDirection * forceMagnitude, impactPoint, ForceMode2D.Impulse);
+            }
+
             Destroy(gameObject);
             TriggerDestructionEffect();
+            return;
         }
 
+        // Colisão com obstáculos
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Destroy(gameObject);
             TriggerDestructionEffect();
         }
     }
+
+
 
     private void DestroyWhenOffScreen()
     {
