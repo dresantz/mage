@@ -5,12 +5,19 @@ public class Destructable : MonoBehaviour
     public int maxResistance = 20; // Resistência inicial máxima
     private int currentResistance;
 
-    public GameObject destructionEffect; // Prefab do sistema de partículas para destruição
+    public GameObject destructionEffect; // Prefab do sistema de partículas para destruição (opcional)
+    private Animator animator; // Referência ao Animator (opcional)
+    public float deleyDestroy;
+    private Collider2D objectCollider; // Referência ao Collider do objeto
 
     private void Start()
     {
         // Define a resistência inicial
         currentResistance = maxResistance;
+
+        // Tenta obter o componente Animator no objeto
+        animator = GetComponent<Animator>();
+        objectCollider = GetComponent<Collider2D>();
     }
 
     public void TakeDamage(int damage)
@@ -23,18 +30,53 @@ public class Destructable : MonoBehaviour
         // Verifica se a resistência chegou a zero
         if (currentResistance == 0)
         {
-            Destroy(gameObject); // Destroi o objeto
-            TriggerDestructionEffect(); // Dispara o efeito de destruição
+            DisableCollider();
+            TriggerDestructionEffect(); // Dispara o efeito de destruição, se existir
+            TriggerDestructionAnimation(); // Dispara a animação de destruição, se existir
+            Destroy(gameObject, deleyDestroy); // Destroi o objeto
+        }
+    }
+
+    private void DisableCollider()
+    {
+        if (objectCollider != null)
+        {
+            objectCollider.enabled = false; // Desativa o CircleCollider2D
         }
     }
 
     private void TriggerDestructionEffect()
     {
-        // Instancia o efeito de partículas na posição e rotação do objeto
-        GameObject effectInstance = Instantiate(destructionEffect, transform.position, transform.rotation);
+        if (destructionEffect != null) // Verifica se o prefab foi atribuído
+        {
+            // Instancia o efeito de partículas na posição e rotação do objeto
+            GameObject effectInstance = Instantiate(destructionEffect, transform.position, transform.rotation);
 
-        // Destroi o clone do efeito de partículas após 10 segundos
-        Destroy(effectInstance, 10f);
+            // Destroi o clone do efeito de partículas após 10 segundos
+            Destroy(effectInstance, 10f);
+        }
+    }
+
+    private void TriggerDestructionAnimation()
+    {
+        if (animator != null && animator.HasParameter("isDestroyed"))
+        {
+            // Ativa o trigger da animação "isDestroyed"
+            animator.SetTrigger("isDestroyed");
+        }
     }
 }
 
+public static class AnimatorExtensions
+{
+    // Método de extensão para verificar se o Animator possui um parâmetro específico
+    public static bool HasParameter(this Animator animator, string paramName)
+    {
+        foreach (var param in animator.parameters)
+        {
+            if (param.name == paramName)
+                return true;
+        }
+        return false;
+    }
+}

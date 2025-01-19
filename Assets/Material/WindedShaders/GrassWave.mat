@@ -43,11 +43,11 @@ Material:
     m_Floats:
     - _EnableExternalAlpha: 0
     - _Tolerance: 0.1
-    - _WaveRadius: 2
+    - _WaveRadius: 1
     - _WaveStrength: 0.2
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _PlayerPos: {r: 0.7216225, g: 15.556334, b: 0, a: 0}
+    - _PlayerPos: {r: -0.72, g: -0.99999905, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
