@@ -62,6 +62,9 @@ TagManager:
   - name: Cover
     uniqueID: 820720569
     locked: 0
+  - name: Dust&Fog
+    uniqueID: 3356153397
+    locked: 0
   - name: CameraSortingLayer
     uniqueID: 184641507
     locked: 0
