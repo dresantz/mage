@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public Animator interactableAnimator; // Referência ao Animator do baú
+    public Animator interactableAnimator; // Referência ao Animator do interagivel
     private bool playerInRange = false; // Verifica se o jogador está no trigger
 
     private void OnTriggerEnter2D(Collider2D other)
