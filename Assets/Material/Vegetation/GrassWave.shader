@@ -6,6 +6,7 @@ Shader "Custom/GrassWaveShader"
         _PlayerPos ("Player Position", Vector) = (0, 0, 0, 0)
         _WaveStrength ("Wave Strength", Float) = 0.1
         _WaveRadius ("Wave Radius", Float) = 1.0
+        _Color ("Color Tint", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -26,6 +27,7 @@ Shader "Custom/GrassWaveShader"
             float4 _PlayerPos;
             float _WaveStrength;
             float _WaveRadius;
+            float4 _Color;
 
             struct appdata_t
             {
@@ -64,9 +66,14 @@ Shader "Custom/GrassWaveShader"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 color = tex2D(_MainTex, i.uv);
-                // Preserva o alpha ou modifica se necessário
-                return color;
+                // Recuperar a cor da textura
+                fixed4 texColor = tex2D(_MainTex, i.uv);
+
+                // Aplicar a cor do material
+                fixed4 finalColor = texColor * _Color;
+
+                // Retornar a cor final com o alpha preservado
+                return finalColor;
             }
             ENDCG
         }
