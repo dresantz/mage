@@ -10,6 +10,8 @@ public class Destructable : MonoBehaviour
     public float deleyDestroy;
     private Collider2D objectCollider; // Referência ao Collider do objeto
 
+    public bool isChangeble;
+
     private void Start()
     {
         // Define a resistência inicial
@@ -33,15 +35,19 @@ public class Destructable : MonoBehaviour
             DisableCollider();
             TriggerDestructionEffect(); // Dispara o efeito de destruição, se existir
             TriggerDestructionAnimation(); // Dispara a animação de destruição, se existir
-            Destroy(gameObject, deleyDestroy); // Destroi o objeto
+            
+            if (!isChangeble)
+            {
+                Destroy(gameObject, deleyDestroy); // Destroi o objeto
+            }
         }
     }
 
     private void DisableCollider()
     {
-        if (objectCollider != null)
+        if (objectCollider != null && !isChangeble)
         {
-            objectCollider.enabled = false; // Desativa o CircleCollider2D
+            objectCollider.enabled = false; // Desativa o Collider2D
         }
     }
 
@@ -63,6 +69,12 @@ public class Destructable : MonoBehaviour
         {
             // Ativa o trigger da animação "isDestroyed"
             animator.SetTrigger("isDestroyed");
+        }
+
+        if (animator != null && animator.HasParameter("hasChange"))
+        {
+            // Ativa o trigger da animação "hasChange"
+            animator.SetTrigger("hasChange");
         }
     }
 }
