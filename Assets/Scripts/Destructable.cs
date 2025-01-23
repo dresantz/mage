@@ -11,6 +11,8 @@ public class Destructable : MonoBehaviour
     private Collider2D objectCollider; // Referência ao Collider do objeto
 
     public bool isChangeble;
+    public PicaxeSpawner picaxeSpawner;
+    private bool picaxeHasSpawn;
 
     private void Start()
     {
@@ -35,7 +37,8 @@ public class Destructable : MonoBehaviour
             DisableCollider();
             TriggerDestructionEffect(); // Dispara o efeito de destruição, se existir
             TriggerDestructionAnimation(); // Dispara a animação de destruição, se existir
-            
+            SpawnObject();
+
             if (!isChangeble)
             {
                 Destroy(gameObject, deleyDestroy); // Destroi o objeto
@@ -60,6 +63,15 @@ public class Destructable : MonoBehaviour
 
             // Destroi o clone do efeito de partículas após 10 segundos
             Destroy(effectInstance, 10f);
+        }
+    }
+
+    private void SpawnObject()
+    {
+        if (picaxeSpawner != null && !picaxeHasSpawn)
+        {
+            picaxeSpawner.SpawnPicaxe(); // Chama a função do script PicaxeSpawner
+            picaxeHasSpawn = true;
         }
     }
 
