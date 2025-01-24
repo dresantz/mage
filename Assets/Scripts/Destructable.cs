@@ -70,7 +70,7 @@ public class Destructable : MonoBehaviour
     {
         if (picaxeSpawner != null && !picaxeHasSpawn)
         {
-            picaxeSpawner.SpawnPicaxe(); // Chama a função do script PicaxeSpawner
+            picaxeSpawner.SpawnPicaxeInAllSpawners(); // Chama a função do script PicaxeSpawner
             picaxeHasSpawn = true;
         }
     }
