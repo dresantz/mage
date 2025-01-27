@@ -17,10 +17,18 @@ public class Serthalyn : MonoBehaviour
 
     private Transform currentTarget; // O alvo atual (Player ou Enemy)
 
+    private Collider2D myCollider; // Collider2D da fada para verificação de inimigos
+
     void Start()
     {
         // Inicializa o próximo tempo de mudança do offset
         SetNextChangeTime();
+
+        // Armazena o Collider2D da fada
+        myCollider = GetComponent<Collider2D>();
+
+        // Verifica se já existe algum inimigo dentro do collider
+        CheckForEnemiesInCollider();
     }
 
     void Update()
@@ -80,7 +88,7 @@ public class Serthalyn : MonoBehaviour
     // Detecção de colisão com Enemy usando o componente Enemy
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Verifica se o objeto tem o script "Enemy" (não mais pela tag)
+        // Verifica se o objeto tem o script "Enemy"
         if (other.GetComponent<Enemy>() != null)
         {
             currentTarget = other.transform; // Define o inimigo como o alvo
@@ -94,6 +102,28 @@ public class Serthalyn : MonoBehaviour
         if (other.GetComponent<Enemy>() != null)
         {
             currentTarget = null; // Remove o inimigo como o alvo
+        }
+    }
+
+    // Função para verificar se há inimigos dentro do collider no início
+    void CheckForEnemiesInCollider()
+    {
+        // Cria um ContactFilter2D e inicializa com valores padrão
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.NoFilter(); // Não filtra nenhum tipo de colisão, apenas verifica tudo.
+
+        // Encontra todos os objetos no collider da fada
+        Collider2D[] colliders = new Collider2D[10]; // Array de tamanho fixo para armazenar os resultados
+        int colliderCount = myCollider.OverlapCollider(filter, colliders);
+
+        // Verifica se algum desses colliders tem o script "Enemy"
+        for (int i = 0; i < colliderCount; i++)
+        {
+            if (colliders[i].GetComponent<Enemy>() != null)
+            {
+                currentTarget = colliders[i].transform; // Define o inimigo como alvo
+                break; // Só toma o primeiro inimigo encontrado
+            }
         }
     }
 
