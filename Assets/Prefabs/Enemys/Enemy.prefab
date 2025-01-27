@@ -198,7 +198,7 @@ MonoBehaviour:
   obstacleCheckDistance: 0.5
   obstacleLayerMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 23
 --- !u!114 &4029119600903614188
 MonoBehaviour:
   m_ObjectHideFlags: 0
