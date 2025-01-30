@@ -65,6 +65,9 @@ TagManager:
   - name: Dust&Fog
     uniqueID: 3356153397
     locked: 0
+  - name: Dialog
+    uniqueID: 1106079663
+    locked: 0
   - name: CameraSortingLayer
     uniqueID: 184641507
     locked: 0
