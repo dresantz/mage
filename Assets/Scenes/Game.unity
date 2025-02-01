@@ -36371,7 +36371,7 @@ Transform:
   m_GameObject: {fileID: 490581828}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.08700001, y: -1.618, z: 0}
+  m_LocalPosition: {x: -0.86, y: -5.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56462,7 +56462,7 @@ MonoBehaviour:
   dialogueText: {fileID: 389872885}
   playerPosition: {fileID: 327771013}
   npcPosition: {fileID: 2056265702}
-  canvas: {fileID: 0}
+  canvas: {fileID: 184349358}
 --- !u!1 &816839902
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,7 +36,8 @@ public class DialogueManager : MonoBehaviour
         ShowDialogue(); // Mostra o primeiro diálogo
     }
 
-    // Exibe a fala atual e move a caixa de diálogo
+    private Transform currentSpeakerTransform; // Guarda quem está falando
+
     private void ShowDialogue()
     {
         if (currentLineIndex < currentDialogue.dialogueLines.Length)
@@ -45,25 +46,39 @@ public class DialogueManager : MonoBehaviour
             string text = currentDialogue.dialogueLines[currentLineIndex].dialogueText;
             dialogueText.text = text;
 
-            // Verifica quem está falando e ajusta a posição
+            // Define quem está falando e ajusta o transform
             if (speaker == "Player")
             {
-                Vector3 screenPos = Camera.main.WorldToScreenPoint(playerPosition.position);
-                dialogueBox.transform.position = screenPos;
+                currentSpeakerTransform = playerPosition;
             }
             else if (speaker == "NPC")
             {
-                Vector3 screenPos = Camera.main.WorldToScreenPoint(npcPosition.position);
-                dialogueBox.transform.position = screenPos;
+                currentSpeakerTransform = npcPosition;
+            }
+
+            // Atualiza a posição inicial imediatamente
+            if (currentSpeakerTransform != null)
+            {
+                dialogueBox.transform.position = Camera.main.WorldToScreenPoint(currentSpeakerTransform.position);
             }
 
             currentLineIndex++;
         }
         else
         {
-            EndDialogue(); // Finaliza o diálogo
+            EndDialogue();
         }
     }
+
+    // Atualiza constantemente a posição da caixa de diálogo
+    private void Update()
+    {
+        if (dialogueBox.activeSelf && currentSpeakerTransform != null)
+        {
+            dialogueBox.transform.position = Camera.main.WorldToScreenPoint(currentSpeakerTransform.position);
+        }
+    }
+
 
     // Avança para a próxima fala
     public void NextLine()
@@ -72,7 +87,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     // Finaliza o diálogo
-    private void EndDialogue()
+    public void EndDialogue()
     {
         dialogueBox.SetActive(false); // Desativa a caixa de diálogo
     }
