@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
     private List<Interactable> interactablesInRange = new List<Interactable>();
+    private bool isInteractingWithNPC = false; // Variável para verificar se estamos interagindo com um NPC
 
     /* No modo Send Messages, os métodos devem ter os mesmos nomes das ações definidas no Input Actions.
      * Por exemplo: Se você criou uma ação chamada Interact, o método correspondente deve ser chamado OnInteract.*/
@@ -16,8 +17,28 @@ public class PlayerInteraction : MonoBehaviour
             // Ordena os objetos pela distância ao jogador
             SortInteractablesByDistance();
 
-            // Ativa o objeto mais próximo
-            interactablesInRange[0].Activation();
+            // Verifica se o interagível tem um Dialogue associado
+            NPCDialogue npcDialogue = interactablesInRange[0].GetComponent<NPCDialogue>();
+
+            if (npcDialogue != null && npcDialogue.dialogue != null)
+            {
+                // Se não estamos interagindo ainda, inicia o diálogo
+                if (!isInteractingWithNPC)
+                {
+                    DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
+                    isInteractingWithNPC = true;
+                }
+                else
+                {
+                    // Se já estamos no meio do diálogo, passa para a próxima fala
+                    DialogueManager.Instance.NextLine();
+                }
+            }
+            else
+            {
+                // Ativa o objeto mais próximo (se não houver diálogo)
+                interactablesInRange[0].Activation();
+            }
         }
     }
 
@@ -36,6 +57,7 @@ public class PlayerInteraction : MonoBehaviour
         if (other.TryGetComponent(out Interactable interactable))
         {
             interactablesInRange.Remove(interactable);
+            isInteractingWithNPC = false;  // Reseta a variável quando sai do Collider
         }
     }
 

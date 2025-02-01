@@ -7,24 +7,30 @@ public class Interactable : MonoBehaviour
     public Renderer objectRenderer; // Renderer do objeto com o shader
     [Range(0.001f, 0.01f)] public float maxThickness = 0.01f; // Valor máximo do Thickness
     public float transitionSpeed = 1f; // Velocidade de transição do shader
+    public bool useRendererEffect = true; // NOVO: Permite ativar/desativar o efeito visual
 
     private Material materialInstance; // Instância do material
     private bool playerInRange = false; // Verifica se o jogador está no trigger
     private Coroutine currentCoroutine; // Referência à corrotina ativa
 
+    public bool useAnimator = true; // Novo: ativa ou desativa o uso do Animator
+
     void Start()
     {
-        // Garante que o objeto tenha uma instância única do material
-        materialInstance = objectRenderer.material;
-        materialInstance.SetFloat("_Tickness", 0f); // Inicializa o shader com Thickness = 0
+        // Se o uso do renderer estiver ativo, inicializa o material
+        if (useRendererEffect && objectRenderer != null)
+        {
+            materialInstance = objectRenderer.material;
+            materialInstance.SetFloat("_Tickness", 0f); // Inicializa o shader com Thickness = 0
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // Certifique-se de que o jogador tem a tag "Player"
+        if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            StartThicknessEffect(0f, maxThickness); // Aumenta o efeito visual
+            if (useRendererEffect) StartThicknessEffect(0f, maxThickness);
         }
     }
 
@@ -33,27 +39,33 @@ public class Interactable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            StartThicknessEffect(maxThickness, 0f); // Reduz o efeito visual
+            if (useRendererEffect) StartThicknessEffect(maxThickness, 0f);
         }
     }
 
     public void Activation()
     {
-        if (playerInRange && interactableAnimator != null)
+        if (playerInRange)
         {
-            interactableAnimator.SetTrigger("Activate");
+            if (useAnimator && interactableAnimator != null) // Apenas ativa se estiver permitido
+            {
+                interactableAnimator.SetTrigger("Activate");
+            }
+            else
+            {
+                Debug.Log($"Animação ignorada para {gameObject.name}.");
+            }
         }
     }
 
+
     private void StartThicknessEffect(float startValue, float endValue)
     {
-        // Interrompe qualquer corrotina em execução para evitar conflitos
         if (currentCoroutine != null)
         {
             StopCoroutine(currentCoroutine);
         }
 
-        // Inicia a corrotina de transição
         currentCoroutine = StartCoroutine(ThicknessTransition(startValue, endValue));
     }
 
@@ -61,7 +73,6 @@ public class Interactable : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        // Transição gradual do valor
         while (elapsedTime < 1f)
         {
             elapsedTime += Time.deltaTime * transitionSpeed;
@@ -70,7 +81,6 @@ public class Interactable : MonoBehaviour
             yield return null;
         }
 
-        // Garante que o valor final seja o esperado
         materialInstance.SetFloat("_Tickness", endValue);
     }
 }
