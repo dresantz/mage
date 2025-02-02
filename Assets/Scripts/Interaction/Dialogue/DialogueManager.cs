@@ -3,17 +3,24 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueManager Instance; // Instância única
+    public static DialogueManager Instance;
 
     [Header("UI")]
-    public GameObject dialogueBox;  // Caixa de diálogo
-    public TextMeshProUGUI dialogueText; // Texto da caixa de diálogo
-    public Transform playerPosition; // Posição do player
-    public Transform npcPosition;    // Posição do NPC
-    public Canvas canvas;  // O canvas da interface (precisa ser definido)
+    public GameObject dialogueBox;
+    public TextMeshProUGUI dialogueText;
 
-    private DialogueLines currentDialogue; // Referência ao diálogo atual
-    private int currentLineIndex = 0; // Linha atual do diálogo
+    [Header("Speaker Positions")]
+    public Transform playerPosition;
+    public Transform npcPosition;
+
+    [Header("Dialogue Offsets")]
+    public Vector3 playerDialogueOffset = new Vector3(0, 1.5f, 0);
+    public Vector3 npcDialogueOffset = new Vector3(0, 1.5f, 0);
+
+    private Transform currentSpeakerTransform;
+    private Vector3 currentOffset;
+    private DialogueLines currentDialogue;
+    private int currentLineIndex = 0;
 
     private void Awake()
     {
@@ -23,20 +30,17 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); // Garantir que exista apenas uma instância
+            Destroy(gameObject);
         }
     }
 
-    // Inicia o diálogo
     public void StartDialogue(DialogueLines dialogue)
     {
         currentDialogue = dialogue;
         currentLineIndex = 0;
-        dialogueBox.SetActive(true); // Ativa a caixa de diálogo
-        ShowDialogue(); // Mostra o primeiro diálogo
+        dialogueBox.SetActive(true);
+        ShowDialogue();
     }
-
-    private Transform currentSpeakerTransform; // Guarda quem está falando
 
     private void ShowDialogue()
     {
@@ -46,22 +50,19 @@ public class DialogueManager : MonoBehaviour
             string text = currentDialogue.dialogueLines[currentLineIndex].dialogueText;
             dialogueText.text = text;
 
-            // Define quem está falando e ajusta o transform
+            // Determina automaticamente a posição do diálogo
             if (speaker == "Player")
             {
                 currentSpeakerTransform = playerPosition;
+                currentOffset = playerDialogueOffset;
             }
             else if (speaker == "NPC")
             {
                 currentSpeakerTransform = npcPosition;
+                currentOffset = npcDialogueOffset;
             }
 
-            // Atualiza a posição inicial imediatamente
-            if (currentSpeakerTransform != null)
-            {
-                dialogueBox.transform.position = Camera.main.WorldToScreenPoint(currentSpeakerTransform.position);
-            }
-
+            UpdateDialogueBoxPosition();
             currentLineIndex++;
         }
         else
@@ -70,25 +71,31 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    // Atualiza constantemente a posição da caixa de diálogo
     private void Update()
     {
         if (dialogueBox.activeSelf && currentSpeakerTransform != null)
         {
-            dialogueBox.transform.position = Camera.main.WorldToScreenPoint(currentSpeakerTransform.position);
+            UpdateDialogueBoxPosition();
         }
     }
 
+    private void UpdateDialogueBoxPosition()
+    {
+        if (currentSpeakerTransform != null)
+        {
+            Vector3 worldPosition = currentSpeakerTransform.position + currentOffset;
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+            dialogueBox.transform.position = screenPosition;
+        }
+    }
 
-    // Avança para a próxima fala
     public void NextLine()
     {
         ShowDialogue();
     }
 
-    // Finaliza o diálogo
     public void EndDialogue()
     {
-        dialogueBox.SetActive(false); // Desativa a caixa de diálogo
+        dialogueBox.SetActive(false);
     }
 }

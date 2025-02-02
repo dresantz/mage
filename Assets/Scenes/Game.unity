@@ -56462,7 +56462,8 @@ MonoBehaviour:
   dialogueText: {fileID: 389872885}
   playerPosition: {fileID: 327771013}
   npcPosition: {fileID: 2056265702}
-  canvas: {fileID: 184349358}
+  playerDialogueOffset: {x: 0, y: -1, z: 0}
+  npcDialogueOffset: {x: 0, y: 1, z: 0}
 --- !u!1 &816839902
 GameObject:
   m_ObjectHideFlags: 0
