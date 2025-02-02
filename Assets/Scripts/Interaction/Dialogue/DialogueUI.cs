@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class DialogueUI : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class DialogueUI : MonoBehaviour
         else
             Destroy(gameObject);
 
-        dialogBox.gameObject.SetActive(false); // Oculta no 
+        dialogBox.gameObject.SetActive(false);
     }
 
     private void Update()

@@ -96,6 +96,9 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        dialogueBox.SetActive(false);
+        if (dialogueBox != null) // Verifica se o objeto ainda existe
+        {
+            dialogueBox.SetActive(false);
+        }
     }
 }

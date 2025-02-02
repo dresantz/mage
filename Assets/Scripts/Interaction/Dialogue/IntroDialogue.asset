@@ -20,4 +20,4 @@ MonoBehaviour:
   - speakerName: NPC
     dialogueText: '"Eu", quem?'
   - speakerName: Player
-    dialogueText: O Mago!
+    dialogueText: O <style="C1">Mago</style>!
