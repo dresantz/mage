@@ -24,31 +24,35 @@ public class EndGame : MonoBehaviour
     private EnemySpawner[] enemySpawners;
     public float typingSpeed = 0.05f;
 
+    private bool areSpawnersActive = false; // Nova flag para verificar se os spawners foram ativados
 
     void Start()
     {
         enemySpawners = FindObjectsOfType<EnemySpawner>();
     }
 
-
     void Update()
     {
-        bool allSpawnersDestroyed = true;
-
-        foreach (var spawner in enemySpawners)
+        // Só verifica se os spawners foram destruídos se eles já foram ativados
+        if (areSpawnersActive)
         {
-            if (spawner != null) // Se algum spawner ainda existe, mantém o estado de espera.
+            bool allSpawnersDestroyed = true;
+
+            foreach (var spawner in enemySpawners)
             {
-                allSpawnersDestroyed = false;
-                break;
+                if (spawner != null) // Se algum spawner ainda existe, mantém o estado de espera.
+                {
+                    allSpawnersDestroyed = false;
+                    break;
+                }
             }
-        }
 
-        // Ativa a tela de fim de jogo apenas uma vez
-        if (allSpawnersDestroyed && !isEndGameScreenActive)
-        {
-            StartCoroutine(DelayedActivateEndGameScreen());
-            isEndGameScreenActive = true; // Marca que a tela de fim de jogo foi ativada
+            // Ativa a tela de fim de jogo apenas uma vez
+            if (allSpawnersDestroyed && !isEndGameScreenActive)
+            {
+                StartCoroutine(DelayedActivateEndGameScreen());
+                isEndGameScreenActive = true; // Marca que a tela de fim de jogo foi ativada
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.E) && isEndGameScreenActive && !isTyping && !isEndGameCompleted)
@@ -57,6 +61,12 @@ public class EndGame : MonoBehaviour
         }
     }
 
+    // Método para ativar a flag dos spawners (chamado pelo gatilho)
+    public void ActivateSpawners()
+    {
+        areSpawnersActive = true;
+        enemySpawners = FindObjectsOfType<EnemySpawner>(); // Atualiza a lista de spawners
+    }
 
     private void ActivateEndGameScreen()
     {
@@ -69,13 +79,11 @@ public class EndGame : MonoBehaviour
         }
     }
 
-
     private IEnumerator DelayedActivateEndGameScreen()
     {
         yield return new WaitForSeconds(delayBeforeEndGameScreen);
         ActivateEndGameScreen();
     }
-
 
     private void ShowNextMessage()
     {
@@ -92,7 +100,6 @@ public class EndGame : MonoBehaviour
         // Exibe a próxima mensagem da lista com a corrotina
         StartCoroutine(TypeSentence());
     }
-
 
     // Corrotina para escrever a frase uma letra de cada vez
     IEnumerator TypeSentence()
@@ -126,7 +133,6 @@ public class EndGame : MonoBehaviour
         isTyping = false;
     }
 
-
     // Mata os inimigos e desativa funções do player e do pause.
     void StopGamePlay()
     {
@@ -159,7 +165,6 @@ public class EndGame : MonoBehaviour
         }
     }
 
-
     // Essas duas últimas funções gerenciam a transição para o MainMenu
     public void EndAfterLastPhrase()
     {
@@ -168,7 +173,6 @@ public class EndGame : MonoBehaviour
         isEndGameCompleted = true;
         // nameof serve apenas para passar o nome de um método sem criar uma variável
         Invoke(nameof(GameOver), timeToWaitBeforeExit);
-        
     }
 
     private void GameOver()

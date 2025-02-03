@@ -6,10 +6,11 @@ public class EnemySpawnerPos : MonoBehaviour
 {
     public GameObject spawnerPrefab; // Prefab do Spawner
     public int spawnersToInstantiate; // Número de Spawners a instanciar
+    public GameObject triggerObject; // Objeto que contém o Collider2D que ativa os Spawners
 
     private List<Transform> spawnerPositions; // Lista de posições disponíveis
+    private bool hasTriggered = false; // Flag para verificar se o gatilho já foi acionado
 
-    // Se eu não colocar no Awake o EndGame não vai fazer a lista dos spawners
     void Awake()
     {
         // Encontra todos os objetos com a tag "SpawnerPos" e armazena suas transformações
@@ -21,11 +22,25 @@ public class EnemySpawnerPos : MonoBehaviour
         {
             spawnerPositions.Add(obj.transform);
         }
-
-        // Instancia os Spawners em posições aleatórias
-        InstantiateSpawners();
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // Verifica se o objeto que entrou no gatilho é o player
+        if (other.CompareTag("Player") && !hasTriggered)
+        {
+
+            Debug.Log("Teste");
+            // Instancia os Spawners em posições aleatórias
+            InstantiateSpawners();
+
+            // Desativa o gatilho para que ele não seja acionado novamente
+            triggerObject.SetActive(false);
+
+            // Marca que o gatilho foi acionado
+            hasTriggered = true;
+        }
+    }
 
     void InstantiateSpawners()
     {
@@ -49,4 +64,3 @@ public class EnemySpawnerPos : MonoBehaviour
         }
     }
 }
-
