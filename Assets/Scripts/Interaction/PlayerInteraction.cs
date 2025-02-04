@@ -12,22 +12,26 @@ public class PlayerInteraction : MonoBehaviour
         {
             SortInteractablesByDistance();
 
+            // Verifica se o objeto interagível tem o componente NPCDialogue
             NPCDialogue npcDialogue = interactablesInRange[0].GetComponent<NPCDialogue>();
 
             if (npcDialogue != null && npcDialogue.dialogue != null)
             {
                 if (!isInteractingWithNPC)
                 {
-                    DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
+                    // Inicia o diálogo, passando o diálogo e a posição do NPC
+                    DialogueManager.Instance.StartDialogue(npcDialogue.dialogue, npcDialogue.dialoguePosition);
                     isInteractingWithNPC = true;
                 }
                 else
                 {
+                    // Avança para a próxima linha do diálogo
                     DialogueManager.Instance.NextLine();
                 }
             }
             else
             {
+                // Se não for um NPC com diálogo, ativa o objeto interagível normalmente
                 interactablesInRange[0].Activation();
             }
         }

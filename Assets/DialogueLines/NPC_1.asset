@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70e258a122e38404183391f9467493f4, type: 3}
-  m_Name: IntroDialogue
+  m_Name: NPC_1
   m_EditorClassIdentifier: 
   dialogueLines:
   - speakerName: NPC
@@ -21,3 +21,9 @@ MonoBehaviour:
     dialogueText: '"Eu", quem?'
   - speakerName: Player
     dialogueText: O Mago.
+  - speakerName: Player
+    dialogueText: "Estou confuso. Isso est\xE1 dando certo?"
+  - speakerName: NPC
+    dialogueText: "Parece que n\xE3o totalmente..."
+  - speakerName: NPC
+    dialogueText: Uma pena...

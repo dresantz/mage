@@ -9,18 +9,15 @@ public class DialogueManager : MonoBehaviour
     public GameObject dialogueBox;
     public TextMeshProUGUI dialogueText;
 
-    [Header("Speaker Positions")]
-    public Transform playerPosition;
-    public Transform npcPosition;
-
     [Header("Dialogue Offsets")]
     public Vector3 playerDialogueOffset = new Vector3(0, 1.5f, 0);
     public Vector3 npcDialogueOffset = new Vector3(0, 1.5f, 0);
 
-    private Transform currentSpeakerTransform;
-    private Vector3 currentOffset;
-    private DialogueLines currentDialogue;
-    private int currentLineIndex = 0;
+    private Transform currentSpeakerTransform; // Transform do falante atual (jogador ou NPC)
+    private Transform npcTransform; // Transform do NPC (armazenado para referência)
+    private Vector3 currentOffset; // Offset do diálogo
+    private DialogueLines currentDialogue; // Diálogo atual
+    private int currentLineIndex = 0; // Índice da linha atual do diálogo
 
     private void Awake()
     {
@@ -34,14 +31,18 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(DialogueLines dialogue)
+    // Método para iniciar o diálogo
+    public void StartDialogue(DialogueLines dialogue, Transform npcTransform)
     {
         currentDialogue = dialogue;
         currentLineIndex = 0;
+        this.npcTransform = npcTransform; // Armazena o transform do NPC
         dialogueBox.SetActive(true);
+
         ShowDialogue();
     }
 
+    // Método para exibir a linha atual do diálogo
     private void ShowDialogue()
     {
         if (currentLineIndex < currentDialogue.dialogueLines.Length)
@@ -50,15 +51,17 @@ public class DialogueManager : MonoBehaviour
             string text = currentDialogue.dialogueLines[currentLineIndex].dialogueText;
             dialogueText.text = text;
 
-            // Determina automaticamente a posição do diálogo
+            // Determina a posição do diálogo com base no falante
             if (speaker == "Player")
             {
-                currentSpeakerTransform = playerPosition;
+                // Usa o transform do jogador (assumindo que o jogador tem a tag "Player")
+                currentSpeakerTransform = GameObject.FindGameObjectWithTag("Player").transform;
                 currentOffset = playerDialogueOffset;
             }
             else if (speaker == "NPC")
             {
-                currentSpeakerTransform = npcPosition;
+                // Usa o transform do NPC que foi armazenado
+                currentSpeakerTransform = npcTransform;
                 currentOffset = npcDialogueOffset;
             }
 
@@ -73,12 +76,14 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
+        // Atualiza a posição da caixa de diálogo enquanto estiver ativa
         if (dialogueBox.activeSelf && currentSpeakerTransform != null)
         {
             UpdateDialogueBoxPosition();
         }
     }
 
+    // Método para atualizar a posição da caixa de diálogo
     private void UpdateDialogueBoxPosition()
     {
         if (currentSpeakerTransform != null)
@@ -89,16 +94,20 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    // Método para avançar para a próxima linha do diálogo
     public void NextLine()
     {
         ShowDialogue();
     }
 
+    // Método para encerrar o diálogo
     public void EndDialogue()
     {
         if (dialogueBox != null) // Verifica se o objeto ainda existe
         {
             dialogueBox.SetActive(false);
+            currentSpeakerTransform = null; // Reseta o transform do falante
+            npcTransform = null; // Reseta o transform do NPC
         }
     }
 }
