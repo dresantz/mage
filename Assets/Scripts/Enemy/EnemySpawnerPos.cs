@@ -11,6 +11,9 @@ public class EnemySpawnerPos : MonoBehaviour
     private List<Transform> spawnerPositions; // Lista de posições disponíveis
     private bool hasTriggered = false; // Flag para verificar se o gatilho já foi acionado
 
+    // Referência ao script EndGame
+    public EndGame endGameScript;
+
     void Awake()
     {
         // Encontra todos os objetos com a tag "SpawnerPos" e armazena suas transformações
@@ -29,8 +32,8 @@ public class EnemySpawnerPos : MonoBehaviour
         // Verifica se o objeto que entrou no gatilho é o player
         if (other.CompareTag("Player") && !hasTriggered)
         {
+            Debug.Log("O player ativou os Spawners");
 
-            Debug.Log("Teste");
             // Instancia os Spawners em posições aleatórias
             InstantiateSpawners();
 
@@ -39,6 +42,16 @@ public class EnemySpawnerPos : MonoBehaviour
 
             // Marca que o gatilho foi acionado
             hasTriggered = true;
+
+            // Chama o método ActivateSpawners() no script EndGame
+            if (endGameScript != null)
+            {
+                endGameScript.ActivateSpawners();
+            }
+            else
+            {
+                Debug.LogError("EndGame script não foi atribuído no EnemySpawnerPos.");
+            }
         }
     }
 
