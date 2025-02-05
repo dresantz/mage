@@ -20,10 +20,10 @@ MonoBehaviour:
   - speakerName: NPC
     dialogueText: '"Eu", quem?'
   - speakerName: Player
-    dialogueText: O Mago.
+    dialogueText: O <style="Fire">Mago</style>.
   - speakerName: Player
     dialogueText: "Estou confuso. Isso est\xE1 dando certo?"
   - speakerName: NPC
-    dialogueText: "Parece que n\xE3o totalmente..."
+    dialogueText: "Est\xE1 sim!"
   - speakerName: NPC
-    dialogueText: Uma pena...
+    dialogueText: "Parab\xE9ns!"

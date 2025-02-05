@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueLines:
   - speakerName: NPC
-    dialogueText: Espero que tudo esteja funcionando.
+    dialogueText: Espero que tudo esteja <style="C2">funcionando</style>.
   - speakerName: Player
     dialogueText: "Eu tamb\xE9m espero..."
