@@ -19,6 +19,8 @@ public class DialogueManager : MonoBehaviour
     private DialogueLines currentDialogue; // Diálogo atual
     private int currentLineIndex = 0; // Índice da linha atual do diálogo
 
+    public bool isDialogueActive { get; private set; } = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -34,16 +36,37 @@ public class DialogueManager : MonoBehaviour
     // Método para iniciar o diálogo
     public void StartDialogue(DialogueLines dialogue, Transform npcTransform)
     {
+        if (dialogue == null) return;
+
         currentDialogue = dialogue;
         currentLineIndex = 0;
-        this.npcTransform = npcTransform; // Armazena o transform do NPC
+        this.npcTransform = npcTransform;
         dialogueBox.SetActive(true);
 
-        ShowDialogue();
+        isDialogueActive = true; // Ativa a flag
+
+        ShowLine();
     }
 
+
+    public void StartDialogueFromCutscene(DialogueLines dialogue, Transform npcTransform)
+    {
+        if (dialogue == null) return;
+
+        currentDialogue = dialogue;
+        currentLineIndex = 0;
+        this.npcTransform = npcTransform;
+        dialogueBox.SetActive(true);
+
+        isDialogueActive = true; // Ativa a flag para permitir interação durante a cutscene
+
+        ShowLine();
+    }
+
+
+
     // Método para exibir a linha atual do diálogo
-    private void ShowDialogue()
+    private void ShowLine()
     {
         if (currentLineIndex < currentDialogue.dialogueLines.Length)
         {
@@ -97,17 +120,18 @@ public class DialogueManager : MonoBehaviour
     // Método para avançar para a próxima linha do diálogo
     public void NextLine()
     {
-        ShowDialogue();
+        ShowLine();
     }
 
     // Método para encerrar o diálogo
     public void EndDialogue()
     {
-        if (dialogueBox != null) // Verifica se o objeto ainda existe
+        if (dialogueBox != null)
         {
             dialogueBox.SetActive(false);
-            currentSpeakerTransform = null; // Reseta o transform do falante
-            npcTransform = null; // Reseta o transform do NPC
+            currentSpeakerTransform = null;
+            npcTransform = null;
+            isDialogueActive = false; // Desativa a flag
         }
     }
 }

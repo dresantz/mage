@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueLines:
   - speakerName: NPC
-    dialogueText: Estamos quase chegando.
+    dialogueText: "J\xE1 conseguiu fazer funcionar?"
   - speakerName: Player
-    dialogueText: "Finalmente... Magos n\xE3o s\xE3o bons caminhadores."
+    dialogueText: Sim, estamos conversando na cutscene!
   - speakerName: NPC
-    dialogueText: "Vamo nessa, fi\xF3te..."
+    dialogueText: Uhuuuuuulll!!!

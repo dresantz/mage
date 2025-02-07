@@ -30,7 +30,7 @@ public class DialogueUI : MonoBehaviour
         }
     }
 
-    public void ShowDialogue(string text, Transform speaker)
+    public void OpenDialogue(string text, Transform speaker)
     {
         speakerTransform = speaker;
         dialogueText.text = text;
