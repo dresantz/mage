@@ -1,21 +1,16 @@
 using UnityEngine;
 
-public class GrassShaderController : MonoBehaviour
+public class UpdatePlayerPosition : MonoBehaviour
 {
-    public Transform player;
-    private Material grassMaterial;
-
-    void Start()
-    {
-        grassMaterial = GetComponent<SpriteRenderer>().material;
-    }
+    public Material grassMaterial; // Material da grama
+    public Transform player; // Transform do jogador
 
     void Update()
     {
         if (grassMaterial != null && player != null)
         {
-            Vector2 playerPos = player.position;
-            grassMaterial.SetVector("_PlayerPosition", playerPos);
+            // Atualiza a posição do jogador no shader (apenas X e Y)
+            grassMaterial.SetVector("_PlayerPos", new Vector2(player.position.x, player.position.y));
         }
     }
 }
