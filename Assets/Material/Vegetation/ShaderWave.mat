@@ -33,5 +33,5 @@ Material:
     - _WaveStrength: 0.1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _PlayerPos: {r: 0.23137656, g: -30.085728, b: 0, a: 0}
+    - _PlayerPos: {r: 2.9199996, g: -38.98109, b: 0, a: 0}
   m_BuildTextureStacks: []

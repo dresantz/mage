@@ -49,6 +49,17 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isWalking", isWalking);
     }
 
+    // Get e Set speed são usados pelo BedTrigger para acessar a a velocidade do player sem alterar sua privacidade.
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
+    }
+
     private void SetPlayerVelocity()
     {
         //SmoothDamp serve justamente para suavizar a parada
