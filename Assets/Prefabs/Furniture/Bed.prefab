@@ -143,6 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb49e212c53e95647b06459125d3220f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScale: {x: 1.1, y: 1.1, z: 1}
-  lerpSpeed: 5
+  targetScale: {x: 1.18, y: 1.18, z: 1}
+  lerpSpeed: 8
   slowMultiplier: 0.7

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IMovableEntity
 {
     [SerializeField]
     private float speed;
@@ -179,5 +179,21 @@ public class Enemy : MonoBehaviour
     private void SetVelocity()
     {
         Rigidbody2D.velocity = transform.up * speed;
+    }
+
+    // Get e Set speed são usados pelo BedTrigger para acessar a a velocidade do player sem alterar sua privacidade.
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }

@@ -1,59 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BedTrigger : MonoBehaviour
 {
-    [SerializeField] private Vector3 targetScale = new Vector3(1.1f, 1.1f, 1f);
-    [SerializeField] private float lerpSpeed = 5f;
-    [SerializeField] private float slowMultiplier = 0.7f; // Diminui a velocidade em 30%
+    [SerializeField] private Vector3 targetScale = new Vector3(1.18f, 1.18f, 1f);
+    [SerializeField] private float lerpSpeed = 9f;
+    [SerializeField] private float slowMultiplier = 0.7f;
 
-    private Transform playerTransform;
-    private Vector3 originalScale;
-    private bool playerOnBed = false;
-
-    private PlayerMovement playerMovementScript;
-    private float originalSpeed;
+    private List<IMovableEntity> entitiesOnBed = new List<IMovableEntity>();
+    private Dictionary<IMovableEntity, Vector3> originalScales = new Dictionary<IMovableEntity, Vector3>();
+    private Dictionary<IMovableEntity, float> originalSpeeds = new Dictionary<IMovableEntity, float>();
 
     private void Update()
     {
-        if (playerTransform != null)
+        foreach (var entity in entitiesOnBed)
         {
-            Vector3 desiredScale = playerOnBed ? targetScale : originalScale;
-            playerTransform.localScale = Vector3.Lerp(
-                playerTransform.localScale,
-                desiredScale,
-                Time.deltaTime * lerpSpeed
-            );
+            if (entity != null && originalScales.ContainsKey(entity))
+            {
+                Transform t = entity.GetTransform();
+                t.localScale = Vector3.Lerp(
+                    t.localScale,
+                    targetScale,
+                    Time.deltaTime * lerpSpeed
+                );
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        IMovableEntity entity = other.GetComponent<IMovableEntity>();
+        if (entity != null)
         {
-            playerTransform = other.transform;
-            originalScale = playerTransform.localScale;
-            playerOnBed = true;
+            if (!entitiesOnBed.Contains(entity))
+                entitiesOnBed.Add(entity);
 
-            playerMovementScript = other.GetComponent<PlayerMovement>();
-            if (playerMovementScript != null)
-            {
-                originalSpeed = playerMovementScript.GetSpeed(); // você precisará expor o getter
-                playerMovementScript.SetSpeed(originalSpeed * slowMultiplier);
-            }
+            if (!originalScales.ContainsKey(entity))
+                originalScales[entity] = entity.GetTransform().localScale;
+
+            if (!originalSpeeds.ContainsKey(entity))
+                originalSpeeds[entity] = entity.GetSpeed();
+
+            entity.SetSpeed(entity.GetSpeed() * slowMultiplier);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        IMovableEntity entity = other.GetComponent<IMovableEntity>();
+        if (entity != null)
         {
-            playerOnBed = false;
+            entitiesOnBed.Remove(entity);
 
-            if (playerMovementScript != null)
+            if (originalScales.TryGetValue(entity, out Vector3 originalScale))
             {
-                playerMovementScript.SetSpeed(originalSpeed);
+                entity.GetTransform().localScale = originalScale;
+                originalScales.Remove(entity);
+            }
+
+            if (originalSpeeds.TryGetValue(entity, out float originalSpeed))
+            {
+                entity.SetSpeed(originalSpeed);
+                originalSpeeds.Remove(entity);
             }
         }
     }
